@@ -1,7 +1,7 @@
 laravel-8/basic-crud-api
 ========================
 
-This scaffolds will generates:
+This scaffold will generates:
 
 1. Migration file.
 2. Model file.
