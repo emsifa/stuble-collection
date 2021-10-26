@@ -1,0 +1,4 @@
+===
+append: routes/api.php
+===
+Route::resource('{? entity.plural.kebab ?}', \App\Http\Controllers\{? entity.singular.pascal ?}Controller::class)->except(['create', 'edit']);

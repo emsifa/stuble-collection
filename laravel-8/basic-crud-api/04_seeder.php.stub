@@ -1,0 +1,44 @@
+===
+path: database/seeders/{? entity.singular.pascal ?}Seeder.php
+===
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\{? entity.singular.pascal ?};
+use Illuminate\Database\Seeder;
+
+class {? entity.singular.pascal ?}Seeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        // WARNING:
+        // This script will remove all data in the '{? entity.plural.snake ?}' table.
+        // Remove `truncate()->` if you don't want to clear the data before insertions.
+        {? entity.singular.pascal ?}::truncate()->insert([
+            [
+                'id' => 1,
+                'name' => 'Lorem',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'id' => 2,
+                'name' => 'Ipsum',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'id' => 3,
+                'name' => 'Dolor',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+        ]);
+    }
+}

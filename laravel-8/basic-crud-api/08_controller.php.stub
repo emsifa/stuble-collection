@@ -1,0 +1,92 @@
+===
+path: app/Http/Controllers/{? entity.singular.pascal ?}Controller.php
+===
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\{? entity.singular.pascal ?}\IndexRequest;
+use App\Http\Requests\{? entity.singular.pascal ?}\StoreRequest;
+use App\Http\Requests\{? entity.singular.pascal ?}\UpdateRequest;
+use App\Models\{? entity.singular.pascal ?};
+use Illuminate\Http\Request;
+
+class {? entity.singular.pascal ?}Controller extends Controller
+{
+    /**
+     * Display a listing of the {? entity.plural.words ?}.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(IndexRequest $request)
+    {
+        $keyword = $request->keyword;
+        $per_page = intval($request->per_page ?: 10);
+        $order_by = $request->order_by ?: "id";
+        $order_asc = $request->order_asc ?: "desc";
+
+        $pagination = {? entity.singular.pascal ?}::query()
+            ->when($keyword, fn ($query) => $query->where("name", "like", $keyword))
+            ->when($order_by, fn ($query) => $query->orderBy($order_by, $order_asc))
+            ->paginate($per_page);
+
+        return response()->json($pagination);
+    }
+
+    /**
+     * Store a newly created {? entity.plural.words ?} in database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreRequest $request)
+    {
+        $data = $request->all();
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::create($data);
+
+        return response()->json(${? entity.singular.snake ?});
+    }
+
+    /**
+     * Display the specified {? entity.plural.words ?}.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::findOrFail($id);
+
+        return response()->json(${? entity.singular.snake ?});
+    }
+
+    /**
+     * Update the specified {? entity.plural.words ?} in database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateRequest $request, $id)
+    {
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::findOrFail($id);
+        ${? entity.singular.snake ?}->name = $request->name;
+        ${? entity.singular.snake ?}->save();
+
+        return response()->json(${? entity.singular.snake ?});
+    }
+
+    /**
+     * Remove the specified {? entity.plural.words ?} from database.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::findOrFail($id);
+        ${? entity.singular.snake ?}->delete();
+
+        return response()->json(${? entity.singular.snake ?});
+    }
+}

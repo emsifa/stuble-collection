@@ -1,0 +1,31 @@
+===
+path: database/factories/{? entity.singular.pascal ?}Factory.php
+===
+<?php
+
+namespace Database\Factories;
+
+use App\Models\{? entity.singular.pascal ?};
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class {? entity.singular.pascal ?}Factory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = {? entity.singular.pascal ?}::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word(),
+        ];
+    }
+}

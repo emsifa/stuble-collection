@@ -1,0 +1,120 @@
+===
+path: tests/Feature/{? entity.singular.pascal ?}Test.php
+===
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\{? entity.singular.pascal ?};
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
+
+class {? entity.singular.pascal ?}Test extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Test get {? entity.plural.snake ?} pagination
+     *
+     * @return void
+     */
+    public function test_index()
+    {
+        {? entity.singular.pascal ?}::factory(5)->create();
+
+        $response = $this->get('/api/{? entity.plural.kebab ?}');
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                [
+                    'id',
+                    'name',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+            'total',
+            'current_page',
+            'per_page',
+            'last_page',
+            'from',
+            'to',
+        ]);
+    }
+
+    /**
+     * Test store/create {? entity.plural.words ?} data
+     *
+     * @return void
+     */
+    public function test_store()
+    {
+        $name = "John Doe " . uniqid();
+        $response = $this->post('/api/{? entity.plural.kebab ?}', [
+            'name' => $name,
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+        ]);
+
+        $this->assertDatabaseHas("{? entity.plural.snake ?}", ['name' => $name]);
+    }
+
+    /**
+     * Test update {? entity.plural.words ?} data
+     *
+     * @return void
+     */
+    public function test_update()
+    {
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::create(['name' => "Old Name"]);
+
+        $new_name = "New Name " . uniqid();
+        $response = $this->put("/api/{? entity.plural.kebab ?}/{${? entity.singular.snake ?}->id}", [
+            'name' => $new_name,
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+        ]);
+
+        $this->assertDatabaseHas("{? entity.plural.snake ?}", [
+            'id' => ${? entity.singular.snake ?}->id,
+            'name' => $new_name,
+        ]);
+    }
+
+
+    /**
+     * Test delete {? entity.plural.words ?} data
+     *
+     * @return void
+     */
+    public function test_destroy()
+    {
+        ${? entity.singular.snake ?} = {? entity.singular.pascal ?}::create(['name' => "John Doe"]);
+
+        $response = $this->delete("/api/{? entity.plural.kebab ?}/{${? entity.singular.snake ?}->id}");
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+        ]);
+
+        $this->assertDatabaseMissing("{? entity.plural.snake ?}", ['id' => ${? entity.singular.snake ?}->id]);
+    }
+}
